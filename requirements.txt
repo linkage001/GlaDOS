@@ -1,5 +1,6 @@
-onnxruntime
+onnxruntime-gpu
 numpy
 sounddevice
 levenshtein
 loguru
+notebook

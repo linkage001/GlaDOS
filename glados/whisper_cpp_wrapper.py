@@ -541,10 +541,11 @@ class LibraryLoader:
             # noinspection PyBroadException
             try:
                 return self.Lookup(path)
-            except Exception:  # pylint: disable=broad-except
+            except Exception as e:  # pylint: disable=broad-except
+                print(str(e))
                 pass
 
-        raise ImportError("Could not load %s." % libname)
+        # raise ImportError("Could not load %s." % libname)
 
     def getpaths(self, libname):
         """Return a list of paths where the library might be found."""
@@ -791,7 +792,8 @@ class PosixLibraryLoader(LibraryLoader):
                         library = match.group(1)
                         cache_i = cache.setdefault(library, set())
                         cache_i.add(path)
-            except OSError:
+            except OSError as e:
+                print(str(e))
                 pass
 
         self._ld_so_cache = cache

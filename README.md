@@ -37,7 +37,7 @@ below.  This has only been tested on Linux, but I think it will work on Windows 
 2. Install the required Python packages, e.g., by running `pip install -r
    requirements.txt`
 3. For the LLM, install [Llama.cpp](https://github.com/ggerganov/llama.cpp), and compile it for your CPU or GPU. Edit the LLAMA_SERVER_PATH parameter in glados.py to match your installation path.
-4. For voice recognition, install [Whisper.cpp](https://github.com/ggerganov/whisper.cpp), and after compiling, mode the "libwhisper.so" file to the "glados" folder or add it to your path.  For Windows, check out the discussion in my [whisper pull request](https://github.com/ggerganov/whisper.cpp/pull/1524).
+4. For voice recognition, install [Whisper.cpp](https://github.com/ggerganov/whisper.cpp), and after compiling, move the "libwhisper.so" file to the "glados" folder or add it to your path.  For Windows, check out the discussion in my [whisper pull request](https://github.com/ggerganov/whisper.cpp/pull/1524).
 5.  Download the models:
     1.  [voice recognition model](https://huggingface.co/distil-whisper/distil-medium.en/resolve/main/ggml-medium-32-2.en.bin?download=true)
     2.  [Llama-3 8B](https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-IQ3_XS.gguf?download=true) or
@@ -47,3 +47,23 @@ below.  This has only been tested on Linux, but I think it will work on Windows 
 
 ## Testing
 You can test the systems by exploring the 'demo.ipynb'.
+
+
+## Notes
+
+sudo apt-get install libcudnn8 is a prerequisite
+
+"libwhisper.so" can be compiled on the whisper.cpp folder with ```make libwhisper.so```. Current version does not support whisper.cpp with GPU support, so build with:
+
+```
+clear
+make
+make libwhisper.so
+```
+
+Memory use in gpu0 keeps jumping, the models are being loaded and unload from SSD, taking a huge hit from my low PCIE GEN2 transfer speeds.
+
+PLAN: outsource whisper.cpp to API, as LLAMA.cpp and possibly TTS.
+
+
+
